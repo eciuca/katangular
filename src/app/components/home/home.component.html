@@ -1,1 +1,10 @@
-<p>home works!</p>
+<mat-card>
+  <mat-card-title>Kata Rest APIs</mat-card-title>
+  <mat-card-content>
+    <mat-list role="list">
+      @for (link of (krapiLinks$ | async); track link) {
+        <mat-list-item role="listitem"><a href="{{link.href}}">{{ link.name }}</a></mat-list-item>
+      }
+    </mat-list>
+  </mat-card-content>
+</mat-card>

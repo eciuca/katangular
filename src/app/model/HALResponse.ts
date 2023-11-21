@@ -1,5 +1,9 @@
-export interface HALResponse<T> {
-  _embedded: T[];
+
+export interface HALResponse<T> extends LinksResponse {
+  _embedded?: T[];
+}
+
+export interface LinksResponse {
   _links: Links;
 }
 
