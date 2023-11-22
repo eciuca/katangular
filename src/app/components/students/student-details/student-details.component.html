@@ -1,0 +1,8 @@
+<mat-card *ngIf="student$ | async as student">
+  <mat-card-header>
+    Details of {{student.name}}
+  </mat-card-header>
+  <mat-card-content>
+    <kt-student [student]="student"></kt-student>
+  </mat-card-content>
+</mat-card>

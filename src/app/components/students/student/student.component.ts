@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Student } from '@kt/model/student';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'kt-student',
   standalone: true,
-  imports: [CommonModule, MatListModule, MatIconModule],
+  imports: [CommonModule, MatListModule, MatIconModule, RouterLink],
   templateUrl: './student.component.html',
   styleUrl: './student.component.css',
   host: {

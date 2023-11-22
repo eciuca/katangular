@@ -17,5 +17,9 @@ export const routes: Routes = [
   {
     path: 'students',
     loadComponent: () => import('./components/students/students.component').then(m => m.StudentsComponent)
+  },
+  {
+    path: 'students/:studentId',
+    loadComponent: () => import('./components/students/student-details/student-details.component').then(m => m.StudentDetailsComponent)
   }
 ];
