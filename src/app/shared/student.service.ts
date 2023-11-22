@@ -3,11 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '@environments/environment';
 import { getEmbeddedField, HALResponse } from '@kt/model/HALResponse';
 import { StudentDto } from '@kt/model/krapi';
-import { map, shareReplay } from 'rxjs/operators';
+import { delay, map, shareReplay } from 'rxjs/operators';
 import { Student } from '@kt/model/student';
 import { StudentReportService } from '@kt/shared/student-report.service';
 import { StudentReport } from '@kt/model/student-report';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, debounceTime } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +20,10 @@ export class StudentService {
   }
 
   getStudents() {
-    if (Math.random() > 0.4) {
-      console.error('Something went wrong');
-      throw new Error('Something went wrong');
-    }
+    // if (Math.random() > 0.4) {
+    //   console.error('Something went wrong');
+    //   throw new Error('Something went wrong');
+    // }
     return this.httpClient.get<HALResponse<StudentDto[]>>(`${this.apiUrl}/students`).pipe(
       map(response => getEmbeddedField<StudentDto[]>(response, 'students', [])),
       map(studentDtos => studentDtos.map(studentDto => this.toStudent(studentDto))),
