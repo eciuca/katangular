@@ -2,8 +2,8 @@
   <mat-card-title>Kata Rest APIs</mat-card-title>
   <mat-card-content>
     <mat-list role="list">
-      @for (link of (krapiLinks$ | async); track link) {
-        <mat-list-item role="listitem"><a href="{{link.href}}">{{ link.name }}</a></mat-list-item>
+      @for (link of (krapiLinks$ | async); track link.name) {
+        <mat-list-item role="listitem"><a href="{{link.href}}" target="_blank">{{ link.name }}</a></mat-list-item>
       }
     </mat-list>
   </mat-card-content>

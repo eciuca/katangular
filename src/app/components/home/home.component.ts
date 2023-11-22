@@ -1,15 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {Observable} from 'rxjs';
-import {KrapiService} from '@kt/shared/krapi.service';
-import {MatCardModule} from '@angular/material/card';
-import {MatListModule} from '@angular/material/list';
-import {map} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
+import { HomeService, Link } from '@kt/components/home/home.service';
 
-type Link = {
-  name: string;
-  href: string;
-}
 @Component({
   selector: 'kt-home',
   standalone: true,
@@ -21,11 +16,7 @@ export class HomeComponent {
 
   krapiLinks$: Observable<Link[]>
 
-  constructor(private krapiService: KrapiService) {
-    this.krapiLinks$ = this.krapiService.getKrapiResources()
-      .pipe(
-        map(linksResponse => linksResponse._links),
-        map(links => Object.keys(links).map(key => ({name: key, href: links[key].href})))
-      );
+  constructor(private homeService: HomeService) {
+    this.krapiLinks$ = this.homeService.getKrapiLinks();
   }
 }
