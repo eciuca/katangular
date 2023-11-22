@@ -1,0 +1,14 @@
+<mat-card>
+  <mat-card-header>Students</mat-card-header>
+  <mat-card-content>
+    @for (student of (students$ | async); track student.id) {
+      <mat-list>{{student.name}}: {{ student.className }} {{ student.allYearAttendance$ | async }}</mat-list>
+    }
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-content>
+    {{ (leastPresentStudent$ | async)?.name }}: {{ leastPresentNumberOfAttendencesAllYear$ | async }}
+  </mat-card-content>
+</mat-card>
