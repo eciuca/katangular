@@ -1,3 +1,3 @@
 <mat-list><mat-icon>record_voice_over</mat-icon>{{student.name}}: {{ student.className }} {{ student.allYearAttendance$ | async }}
-  <a [routerLink]="['/students', student.id]"><mat-icon > contact_mail</mat-icon></a>
+  <a [routerLink]="['/students', student.id, { foo: 'foo' }]"><mat-icon > contact_mail</mat-icon></a>
 </mat-list>
