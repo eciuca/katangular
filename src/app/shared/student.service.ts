@@ -20,9 +20,20 @@ export class StudentService {
   }
 
   getStudents() {
+    if (Math.random() > 0.4) {
+      console.error('Something went wrong');
+      throw new Error('Something went wrong');
+    }
     return this.httpClient.get<HALResponse<StudentDto[]>>(`${this.apiUrl}/students`).pipe(
       map(response => getEmbeddedField<StudentDto[]>(response, 'students', [])),
       map(studentDtos => studentDtos.map(studentDto => this.toStudent(studentDto))),
+      shareReplay()
+    );
+  }
+
+  getStudent(id: number) {
+    return this.httpClient.get<StudentDto>(`${this.apiUrl}/students/${id}`).pipe(
+      map(studentDto => this.toStudent(studentDto)),
       shareReplay()
     );
   }

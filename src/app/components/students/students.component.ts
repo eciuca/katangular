@@ -2,15 +2,15 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StudentService } from '@kt/shared/student.service';
 import {
-  BehaviorSubject,
+  BehaviorSubject, catchError, combineLatest, concat, concatAll,
   debounce,
   debounceTime,
   forkJoin,
   mergeMap,
   min,
   Observable,
-  of, take, tap,
-  throttleTime,
+  of, onErrorResumeNext, retry, take, tap,
+  throttleTime, timer, withLatestFrom,
   zip
 } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
@@ -30,27 +30,26 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class StudentsComponent {
   refresh$ = new BehaviorSubject<number>(0);
-  students$: Observable<Student[]>
-  leastPresentNumberOfAttendencesAllYear$: Observable<number>;
-  leastPresentStudent$: Observable<Student>;
+  students$ = new BehaviorSubject<Student[]>([])
+  leastPresentNumberOfAttendencesAllYear$!: Observable<number>;
+  leastPresentStudent$!: Observable<Student>;
   constructor(private studentService: StudentService) {
-    const evenNumbers = fromIterable([2,4,8]);
+    // this.combinationExamples();
+    this.loadStudentsData();
 
-    this.students$ = this.refresh$.pipe(
-      tap(id => console.log('refreshing before throttle ' + id)),
-      throttleTime(2000),
-      tap(id => console.log('refreshing after throttle ' + id)),
-      mergeMap(_ => this.studentService.getStudents()),
-      shareReplay()
-    );
+  }
 
-    this.students$ = this.refresh$.pipe(
-      tap(id => console.log('refreshing before throttle ' + id)),
-      throttleTime(2000),
-      tap(id => console.log('refreshing after throttle ' + id)),
-      mergeMap(_ => this.studentService.getStudents()),
-      shareReplay()
-    );
+  private loadStudentsData() {
+    this.refresh$
+      .pipe(throttleTime(2000))
+      .subscribe(_ => {
+        this.studentService.getStudents()
+          .pipe(retry(3))
+          .subscribe(students => {
+            console.log('Fetched students!');
+            this.students$.next(students);
+          });
+      });
 
     this.leastPresentNumberOfAttendencesAllYear$ = this.students$.pipe(
       mergeMap(student => {
@@ -58,7 +57,7 @@ export class StudentsComponent {
         const afterForkJoin = forkJoin(attendences$)
         return afterForkJoin
       }),
-      map(attendences => attendences.reduce((a,b) => a < b ? a : b, 1000000)),
+      map(attendences => attendences.reduce((a, b) => a < b ? a : b, 1000000)),
     );
 
     this.leastPresentStudent$ = this.students$.pipe(
@@ -67,9 +66,40 @@ export class StudentsComponent {
         const afterForkJoin = forkJoin(attendences$)
         return afterForkJoin;
       }),
-      map(studentsWithAttendances => studentsWithAttendances.reduce((a,b) => a[1] < b[1] ? a : b)),
+      map(studentsWithAttendances => studentsWithAttendances.reduce((a, b) => a[1] < b[1] ? a : b)),
       map(([student, attendence]) => student)
     );
+  }
+
+  private combinationExamples() {
+    const student1$ = this.studentService.getStudent(1).pipe(shareReplay());
+    const student2$ = this.studentService.getStudent(2).pipe(shareReplay());
+    let timer$ = timer(0, 1000)
+      .pipe(tap(time => console.log('time', time)))
+
+    zip(timer$, student1$, student2$)
+      .subscribe(([time, student1, student2]) => {
+        console.log('zip(' + time + ', ' + student1.id + ', ' + student2.id + ')');
+      });
+
+    //
+    // combineLatest([timer$, student1$, student2$])
+    //   .subscribe(([time, student1, student2]) => {
+    //     console.log('combineLatest(' + time + ', ' + student1.id + ', ' + student2.id + ')');
+    //   });
+
+    // timer$.pipe(
+    //   withLatestFrom(student1$, student2$)
+    // )
+    //   .subscribe(([time, student1, student2]) => {
+    //     console.log('combineLatest(' + time + ', ' + student1.id + ', ' + student2.id + ')');
+    //   });
+
+
+    concat(timer$.pipe(take(5)), student1$, student2$)
+      .subscribe(value => {
+        console.log('concat(' + typeof (value) === 'number' ? value.toString() : (<any>value)?.id + ')');
+      });
   }
 
   refresh() {
