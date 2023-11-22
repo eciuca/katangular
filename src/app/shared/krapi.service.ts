@@ -18,6 +18,9 @@ export class KrapiService {
 
   getKrapiResourcesRaw(): Observable<HttpResponse<LinksResponse>> {
     return this.httpClient.get<LinksResponse>(`${this.apiUrl}/`, { observe: 'response' });
+  }
 
+  getWebsocketConnection(): Observable<any> {
+    return this.httpClient.get<any>('ws://localhost:8080/websocket/stream');
   }
 }

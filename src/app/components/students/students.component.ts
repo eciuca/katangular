@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StudentService } from '@kt/shared/student.service';
 import {
@@ -13,30 +13,40 @@ import {
   throttleTime, timer, withLatestFrom,
   zip
 } from 'rxjs';
-import { MatCardModule } from '@angular/material/card';
+import { MatCard, MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { Student } from '@kt/model/student';
 import { map, shareReplay } from 'rxjs/operators';
 import { fromIterable } from 'rxjs/internal/observable/innerFrom';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { StudentComponent } from '@kt/components/students/student/student.component';
 
 @Component({
   selector: 'kt-students',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatListModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, MatCardModule, MatListModule, MatIconModule, MatButtonModule, StudentComponent],
   templateUrl: './students.component.html',
   styleUrl: './students.component.css'
 })
-export class StudentsComponent {
+export class StudentsComponent implements AfterViewInit {
+
+  @ViewChild(MatCard) studentComponent!: MatCard;
+
   refresh$ = new BehaviorSubject<number>(0);
   students$ = new BehaviorSubject<Student[]>([])
   leastPresentNumberOfAttendencesAllYear$!: Observable<number>;
   leastPresentStudent$!: Observable<Student>;
-  constructor(private studentService: StudentService) {
+  constructor(private studentService: StudentService, private cd: ChangeDetectorRef) {
     // this.combinationExamples();
     this.loadStudentsData();
+  }
 
+  ngAfterViewInit() {
+    console.log('ngAfterViewInit');
+    console.log('studentComponent', this.studentComponent);
+    this.studentComponent.appearance = 'outlined';
+    // this.cd.detectChanges();
   }
 
   private loadStudentsData() {
