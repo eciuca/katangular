@@ -32,10 +32,11 @@ export class PlaygroundComponent {
     }
 
     // return webSocket('ws://localhost:8080/websocket/stream');
-    return webSocket('ws://localhost:8080/websocket/stream');
+    return webSocket('ws://localhost:8080/krapi/websocket');
   }
 
   send(data: any) {
+    console.log('sending data', data);
     if (this.connection$) {
       this.connection$.next(data);
     } else {
