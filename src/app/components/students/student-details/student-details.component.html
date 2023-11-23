@@ -1,8 +1,8 @@
-<mat-card *ngIf="student$ | async as student">
+<mat-card *ngIf="student() as studentVariable">
   <mat-card-header>
-    Details of {{student.name}}
+    Details of {{studentVariable?.name}}
   </mat-card-header>
   <mat-card-content>
-    <kt-student [student]="student"></kt-student>
+    <kt-student [student]="studentVariable"></kt-student>
   </mat-card-content>
 </mat-card>
