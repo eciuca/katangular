@@ -19,6 +19,10 @@ export class ClassValidator implements AsyncValidator {
 
   private validateClassExists(students: Student[], control: AbstractControl) {
     const classIsValid = students.map(student => student.className).includes(control.value);
-    return classIsValid ? null : {classValidator: {valid: false}};
+    console.log('classIsValid: ' + classIsValid);
+    return classIsValid ? null : {
+      classValidator: {valid: false},
+      message: 'Class does not exist'
+    };
   }
 }

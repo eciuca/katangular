@@ -23,11 +23,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { StudentComponent } from '@kt/components/students/student/student.component';
 import { StudentFormComponent } from '@kt/components/students/student-form/student-form.component';
 import { MatGridListModule } from '@angular/material/grid-list';
+import {
+  StudentFormTemplateComponent
+} from '@kt/components/students/student-form-template/student-form-template.component';
 
 @Component({
   selector: 'kt-students',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatListModule, MatIconModule, MatButtonModule, StudentComponent, StudentFormComponent, MatGridListModule],
+  imports: [CommonModule, MatCardModule, MatListModule, MatIconModule, MatButtonModule, StudentComponent, StudentFormComponent, MatGridListModule, StudentFormTemplateComponent],
   templateUrl: './students.component.html',
   styleUrl: './students.component.css'
 })

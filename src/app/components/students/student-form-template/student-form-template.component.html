@@ -1,0 +1,44 @@
+<mat-card>
+  <mat-card-header><h2>New student</h2></mat-card-header>
+  <mat-card-content>
+    <form #studentForm="ngForm">
+      <p>
+        <mat-form-field>
+          <mat-label>First name</mat-label>
+          <input matInput [(ngModel)]="name" name="name" required minlength="2" >
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field>
+          <mat-label>Last name</mat-label>
+          <input matInput [(ngModel)]="title" name="title" required minlength="2">
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field>
+          <mat-label>Class</mat-label>
+          <input matInput #classInput="ngModel" [(ngModel)]="className" name="className" ktClassValidator [ngModelOptions]="{ updateOn: 'blur' }">
+        </mat-form-field>
+        <span *ngIf="!classInput.valid && (classInput.touched || classInput.dirty) && classInput.errors?.['classValidator']">Message: {{ classInput.errors?.['message']}}</span>
+      </p>
+      <p>
+        <mat-form-field>
+          <mat-label>Section</mat-label>
+          <input matInput #sectionInput="ngModel" [(ngModel)]="section" name="section" maxlength="1" pattern="[A-B]">
+        </mat-form-field>
+          <span *ngIf="!sectionInput.valid && (sectionInput.touched || sectionInput.dirty) && sectionInput.errors?.['pattern']">Section must be one of A or B</span>
+      </p>
+      <p>
+        <mat-form-field>
+          <mat-label>Roll id</mat-label>
+          <input  type="number" matInput [(ngModel)]="rollId" name="rollId">
+        </mat-form-field>
+      </p>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button (click)="saveStudent()" [disabled]="!studentForm['valid']">Save</button>
+    <button mat-button (click)="studentForm.reset()">Reset</button>
+    <p>{{studentForm['valid']}}</p>
+  </mat-card-actions>
+</mat-card>
