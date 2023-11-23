@@ -32,7 +32,7 @@ export class PlaygroundComponent {
     }
 
     // return webSocket('ws://localhost:8080/websocket/stream');
-    return webSocket('ws://localhost:8080/krapi/websocket');
+    return webSocket('ws://localhost:4200/krapi/websocket');
   }
 
   send(data: any) {
