@@ -43,9 +43,9 @@ export class StudentsComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    console.log('ngAfterViewInit');
-    console.log('studentComponent', this.studentComponent);
-    this.studentComponent.appearance = 'outlined';
+    // console.log('ngAfterViewInit');
+    // console.log('studentComponent', this.studentComponent);
+    // this.studentComponent.appearance = 'outlined';
     // this.cd.detectChanges();
   }
 

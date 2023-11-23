@@ -4,7 +4,7 @@ import {RouterOutlet} from '@angular/router';
 import {NavigationComponent} from '@kt/components/navigation/navigation.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FormsModule } from '@angular/forms';
-import { Observable, of } from 'rxjs';
+import { debounceTime, Observable, of } from 'rxjs';
 import { LoadingService } from '@kt/shared/loading.service';
 
 @Component({
@@ -19,6 +19,8 @@ export class AppComponent {
   loading$: Observable<Boolean>;
 
   constructor(private loadingService: LoadingService) {
-    this.loading$ = this.loadingService.loading$.asObservable();
+    this.loading$ = this.loadingService.loading$
+      .asObservable()
+      .pipe(debounceTime(100));
   }
 }

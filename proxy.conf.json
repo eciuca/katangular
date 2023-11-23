@@ -1,8 +1,8 @@
 {
   "/krapi": {
-    "target": "https://0b85-82-76-159-220.ngrok-free.app",
+    "target": "http://localhost:8080",
     "secure": false,
-    "changeOrigin": true,
+//    "changeOrigin": true,
     "ws": true
   }
 }
