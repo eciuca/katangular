@@ -3,7 +3,7 @@
 // Generated using typescript-generator version 3.2.1263 on 2023-11-22 00:15:29.
 
 export interface AgentDto {
-  agentCode: string;
+  agentCode?: string;
   agentName: string;
   workingArea: string;
   commission: number;
@@ -12,13 +12,13 @@ export interface AgentDto {
 }
 
 export interface CompanyDto {
-  id: string;
+  id?: string;
   name: string;
   city: string;
 }
 
 export interface CustomerDto {
-  id: string;
+  id?: string;
   name: string;
   city: string;
   country: string;
@@ -33,14 +33,14 @@ export interface CustomerDto {
 }
 
 export interface FoodDto {
-  id: string;
+  id?: string;
   name: string;
   unit: string;
   companyId: string;
 }
 
 export interface OrderDto {
-  id: number;
+  id?: number;
   amount: number;
   advanceAmount: number;
   date: Date;
@@ -50,7 +50,7 @@ export interface OrderDto {
 }
 
 export interface StudentDto {
-  id: number;
+  id?: number;
   className: string;
   section: string;
   rollId: number;
@@ -59,7 +59,7 @@ export interface StudentDto {
 }
 
 export interface StudentReportDto {
-  id: number;
+  id?: number;
   studentId: number;
   grade: string;
   semester: string;

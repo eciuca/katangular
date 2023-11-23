@@ -2,3 +2,7 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.grid-layout-custom{
+  width: 50vw;
+  height: 50vh;
+}

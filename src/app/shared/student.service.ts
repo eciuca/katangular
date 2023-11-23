@@ -39,7 +39,7 @@ export class StudentService {
   }
 
   toStudent(studentDto: StudentDto): Student {
-    const reports$ = this.studentReportService.getStudentReports(studentDto.id).pipe(shareReplay());
+    const reports$ = this.studentReportService.getStudentReports(studentDto.id!).pipe(shareReplay());
     const allYearAttendance$ = reports$.pipe(
       map(reports => this.sumAttendances(reports)));
 
@@ -52,5 +52,12 @@ export class StudentService {
 
   private sumAttendances(reports: StudentReport[]) {
     return reports.map(report => report.classAttended).reduce((a, b) => a + b, 0);
+  }
+
+  saveStudent(newStudent: StudentDto) {
+    return this.httpClient.post<StudentDto>(`${this.apiUrl}/students`, newStudent).pipe(
+      map(studentDto => this.toStudent(studentDto)),
+      shareReplay()
+    );
   }
 }

@@ -1,19 +1,28 @@
-<mat-card>
-  <mat-card-header>Students
-      &nbsp;
+<div class="row">
+  <kt-student-form (submit)="refresh()"></kt-student-form>
+</div>
+<br/>
+<div class="row">
+  <mat-card>
+    <mat-card-header>Students</mat-card-header>
+    <mat-card-content>
+      @for (student of (students$ | async);track student.id) {
+        <kt-student [student]="student"></kt-student>
+      }
+    </mat-card-content>
+    <mat-card-actions>
       <button mat-mini-fab color="primary" aria-label="Refresh" (click)="refresh()">
         <mat-icon>refresh</mat-icon>
       </button>
-  </mat-card-header>
-  <mat-card-content>
-    @for (student of (students$ | async); track student.id) {
-      <kt-student [student]="student"></kt-student>
-    }
-  </mat-card-content>
-</mat-card>
+    </mat-card-actions>
+  </mat-card>
+</div>
+<br/>
+<div class="row">
+  <mat-card>
+    <mat-card-content>
+      {{ (leastPresentStudent$ | async)?.name }}: {{ leastPresentNumberOfAttendencesAllYear$ | async }}
+    </mat-card-content>
+  </mat-card>
+</div>
 
-<mat-card>
-  <mat-card-content>
-    {{ (leastPresentStudent$ | async)?.name }}: {{ leastPresentNumberOfAttendencesAllYear$ | async }}
-  </mat-card-content>
-</mat-card>

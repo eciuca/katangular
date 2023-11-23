@@ -21,11 +21,13 @@ import { fromIterable } from 'rxjs/internal/observable/innerFrom';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { StudentComponent } from '@kt/components/students/student/student.component';
+import { StudentFormComponent } from '@kt/components/students/student-form/student-form.component';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @Component({
   selector: 'kt-students',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatListModule, MatIconModule, MatButtonModule, StudentComponent],
+  imports: [CommonModule, MatCardModule, MatListModule, MatIconModule, MatButtonModule, StudentComponent, StudentFormComponent, MatGridListModule],
   templateUrl: './students.component.html',
   styleUrl: './students.component.css'
 })
